@@ -4,15 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hello FastAPI</title>
-    <script>
-      async function fetchHello() {
-        const response = await fetch("http://127.0.0.1:8000/hello");
-        const data = await response.json();
-        document.getElementById("message").innerText = data.message;
-      }
-    </script>
+    <link rel="stylesheet" href="../index/App.css" />
   </head>
   <body onload="fetchHello()">
+    <header>ここがヘッダー</header>
+
     <h1 id="message">Loading...</h1>
+    <footer>ここがフッター</footer>
+    <script src="../static/App.js"></script>
   </body>
 </html>
