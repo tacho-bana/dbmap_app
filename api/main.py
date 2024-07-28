@@ -1,19 +1,12 @@
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import HTMLResponse
+from jinja2 import Environment, FileSystemLoader
 
 app = FastAPI()
 
-# CORS設定
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # 適切なオリジンに制限してください
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-@app.get("/hello")
-def read_hello():
-    return JSONResponse(content={"message": "Hello, World!"})
-
+@app.get("/", response_class=HTMLResponse)
+def read_root():
+    env = Environment(loader=FileSystemLoader('templates'))
+    template = env.get_template('index.html')
+    html_content = template.render()
+    return HTMLResponse(content=html_content)
