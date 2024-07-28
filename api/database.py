@@ -1,9 +1,9 @@
 import os
-from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-DATABASE_URL = "sqlite:///./test.db"
+DATABASE_URL = "sqlite:///../db/test.db"
 
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
@@ -24,7 +24,7 @@ class Beer(Base):
 
 class BarBeer(Base):
     __tablename__ = "bar_beers"
-    bar_id = Column(Integer, primary_key=True, index=True)
-    beer_id = Column(Integer, primary_key=True, index=True)
+    bar_id = Column(Integer, ForeignKey('bars.id'), primary_key=True, index=True)
+    beer_id = Column(Integer, ForeignKey('beers.id'), primary_key=True, index=True)
 
 Base.metadata.create_all(bind=engine)
