@@ -1,54 +1,55 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hello FastAPI</title>
-    <link rel="stylesheet" href="/static/css/styles.css">
-</head>
-<body>
-<header class="header">ここがヘッダー</header>
+    <link rel="stylesheet" href="../static/index.css" />
+  </head>
+  <body>
+    <header class="header">ここがヘッダー</header>
 
-<h1 id="message">Hello FastAPI</h1>
-<p>検索するビールを選択</p>
-<select name="beer-select" id="beer-select">
-    <option value="" selected>選択してください</option>
-    <option value="lager">ラガー</option>
-    <option value="ale">エール</option>
-    <option value="stout">スタウト</option>
-    <option value="pilsner">ピルスナー</option>
-</select>
-<p id="selected-beer">選択されたビールがここに表示されます。</p>
+    <h1 id="message">Hello FastAPI</h1>
+    <p>検索するビールを選択</p>
+    <select name="beer-select" id="beer-select">
+      <option value="" selected>選択してください</option>
+      <option value="lager">ラガー</option>
+      <option value="ale">エール</option>
+      <option value="stout">スタウト</option>
+      <option value="pilsner">ピルスナー</option>
+    </select>
+    <p id="selected-beer">選択されたビールがここに表示されます。</p>
 
-<script>
-    document
+    <script>
+      document
         .querySelector("#beer-select")
         .addEventListener("change", function () {
-            var selectedBeer = this.options[this.selectedIndex].text;
-            document.getElementById("selected-beer").textContent =
-                "選択されたビール: " + selectedBeer;
+          var selectedBeer = this.options[this.selectedIndex].text;
+          document.getElementById("selected-beer").textContent =
+            "選択されたビール: " + selectedBeer;
         });
-</script>
+    </script>
 
-<div id="map-container">
-    {% for bar in bars %}
-    <div class="map">
+    <div id="map-container">
+      {% for bar in bars %}
+      <div class="map">
         <h3>{{ bar.name }}</h3>
         <iframe
-            width="600"
-            height="450"
-            style="border:0"
-            loading="lazy"
-            allowfullscreen
-            src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCFeicvzF14E1Yt8XU615M0I0SBcv4NlcU
-            &q={{ bar.location }}">
+          width="600"
+          height="450"
+          style="border: 0"
+          loading="lazy"
+          allowfullscreen
+          src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCFeicvzF14E1Yt8XU615M0I0SBcv4NlcU
+            &q={{ bar.location }}"
+        >
         </iframe>
         <p><a href="{{ bar.url }}" target="_blank">リンク</a></p>
+      </div>
+      {% endfor %}
     </div>
-    {% endfor %}
-</div>
 
-<footer class="footer">ここがフッター</footer>
-<script src="/static/js/app.js"></script>
-</body>
+    <footer class="footer">ここがフッター</footer>
+    <script src="../static/App.js"></script>
+  </body>
 </html>
