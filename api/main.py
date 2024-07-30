@@ -1,34 +1,25 @@
-from fastapi import FastAPI, Depends, HTTPException
-from sqlalchemy.orm import Session
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from database import Base, engine, Bar, Beer, BarBeer, SessionLocal
+from fastapi.responses import JSONResponse
+import json
 
 app = FastAPI()
 
+# CORS設定
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"],  # 適切なオリジンに制限してください
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+@app.get("/data")
+def get_data():
+    with open("../data.json", "r") as file:
+        data = json.load(file)
+    return JSONResponse(content=data)
 
-@app.get("/api/bars")
-def get_bars(beer_name: str, db: Session = Depends(get_db)):
-    beer = db.query(Beer).filter(Beer.name == beer_name).first()
-    if not beer:
-        raise HTTPException(status_code=404, detail="Beer not found")
-
-    bars = db.query(Bar).join(BarBeer).filter(BarBeer.beer_id == beer.id).all()
-    return [{"name": bar.name, "location": bar.location, "url": bar.url} for bar in bars]
-
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="127.0.0.1", port=8000)
