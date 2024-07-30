@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
                           barItem.className = "bar-item";
                           barItem.innerHTML = `<b>${bar.name}</b><br><a href="${bar.url}" target="_blank">${bar.url}</a>`;
                           barItem.addEventListener("click", function () {
-                              showBarBeers(bar.id);
+                              showBarBeers(bar.id, data);
                               marker.openPopup();
                               map.setView([lat, lng], 15); // クリック時にマップをズームしてマーカーを表示
                           });
@@ -63,9 +63,20 @@ document.addEventListener('DOMContentLoaded', function () {
       .catch(error => console.error('Error fetching data:', error));
 });
 
-function showBarBeers(barId) {
-  // 必要に応じてこの関数を実装してください
-  // barId を使って選択されたバーのビールリストを表示するなどの処理を行います
+function showBarBeers(barId, data) {
+  var selectedBarBeers = document.getElementById("selected-bar-beers");
+  selectedBarBeers.innerHTML = "";
+
+  var barBeers = data.bar_beers.filter(bb => bb.bar_id == barId);
+  barBeers.forEach(barBeer => {
+      var beer = data.beers.find(beer => beer.id == barBeer.beer_id);
+      if (beer) {
+          var beerItem = document.createElement("div");
+          beerItem.className = "beer-item";
+          beerItem.innerHTML = `<p>${beer.name}</p>`;
+          selectedBarBeers.appendChild(beerItem);
+      }
+  });
 }
 
 // マップの初期設定
