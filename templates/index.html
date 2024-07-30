@@ -8,20 +8,23 @@
     <link rel="stylesheet" href="./static/index.css" />
 </head>
 <body>
+    <header>
+        <h4>NomiSearch</h4>
+    </header id='header'>
     <h1>ビールの種類を選択してください</h1>
     <select id="beer-select">
         <option value="">--選択してください--</option>
     </select>
-    <h3>店舗リスト⇩</h3>
+    <h3>店舗リスト⬇︎</h3>
     <div id="bar-list"></div>
-    <h3>店舗情報⇩</h3>
+    <h3>店舗情報⬇︎</h3>
     <div id="selected-bar-beers"></div>
     <div id="map" style="height: 500px;"></div>
+    <footer>
+        <img class='footer-image' src="./image/img-notice-ab.svg" alt="ストップ！20歳未満飲酒・飲酒運転。妊娠中や授乳期の飲酒は、胎児・乳児の発育に悪影響を与えるおそれがあります。ほどよく、楽しく、いいお酒。のんだあとはリサイクル。">
+        <p class="nomi">© 2024 NomiSearch</p>
+    </footer>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="./static/index.js"></script>
 </body>
 </html>
-
-
-
-
