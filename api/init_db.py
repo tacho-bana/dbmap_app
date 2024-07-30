@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from .database import engine, Base, Bar, Beer, BarBeer
+from database import engine, Base, Bar, Beer, BarBeer
 
 Base.metadata.create_all(bind=engine)
 

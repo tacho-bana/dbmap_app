@@ -1,17 +1,17 @@
-from fastapi import FastAPI, Depends
-from fastapi.responses import HTMLResponse
+from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
-from jinja2 import Environment, FileSystemLoader
-from .database import SessionLocal, Bar
-from dotenv import load_dotenv
-import os
-
-# Load environment variables from .env file
-load_dotenv()
+from fastapi.middleware.cors import CORSMiddleware
+from database import Base, engine, Bar, Beer, BarBeer, SessionLocal
 
 app = FastAPI()
 
-env = Environment(loader=FileSystemLoader('templates'))
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 def get_db():
     db = SessionLocal()
@@ -20,10 +20,15 @@ def get_db():
     finally:
         db.close()
 
-@app.get("/", response_class=HTMLResponse)
-def read_root(db: Session = Depends(get_db)):
-    bars = db.query(Bar).all()
-    api_key = os.getenv("AIzaSyCFeicvzF14E1Yt8XU615M0I0SBcv4NlcU")
-    template = env.get_template('index.html')
-    html_content = template.render(bars=bars, api_key=api_key)
-    return HTMLResponse(content=html_content)
+@app.get("/api/bars")
+def get_bars(beer_name: str, db: Session = Depends(get_db)):
+    beer = db.query(Beer).filter(Beer.name == beer_name).first()
+    if not beer:
+        raise HTTPException(status_code=404, detail="Beer not found")
+
+    bars = db.query(Bar).join(BarBeer).filter(BarBeer.beer_id == beer.id).all()
+    return [{"name": bar.name, "location": bar.location, "url": bar.url} for bar in bars]
+
+@app.get("/")
+def read_root():
+    return {"Hello": "World"}
