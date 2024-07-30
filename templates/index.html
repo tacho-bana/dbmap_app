@@ -1,23 +1,27 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title>Bar Locations</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="./static/index.css" />
-  </head>
-  <body>
+</head>
+<body>
     <h1>ビールの種類を選択してください</h1>
     <select id="beer-select">
-      <option value="">--選択してください--</option>
+        <option value="">--選択してください--</option>
     </select>
     <h3>店舗リスト⇩</h3>
     <div id="bar-list"></div>
     <h3>店舗情報⇩</h3>
     <div id="selected-bar-beers"></div>
-    <div id="map"></div>
+    <div id="map" style="height: 500px;"></div>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="./static/index.js"></script>
-  </body>
+</body>
 </html>
+
+
+
+
